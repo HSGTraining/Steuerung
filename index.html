@@ -16,11 +16,11 @@
     <h1>Tastenbasierte Link-Aufrufe</h1>
     <p>Drücke und halte eine der folgenden Tasten, um den jeweiligen Link aufzurufen:</p>
     <ul>
-        <li><strong>W</strong>: <code>http://vorbe</code></li>
-        <li><strong>A</strong>: <code>http://links</code></li>
-        <li><strong>S</strong>: <code>http://hinten</code></li>
-        <li><strong>D</strong>: <code>http://rechts</code></li>
-        <li><strong>L</strong>: <code>http://lampe</code></li>
+        <li><strong>W</strong>: <code>http://10.0.3.253/w</code></li>
+        <li><strong>A</strong>: <code>http://10.0.3.253/a</code></li>
+        <li><strong>S</strong>: <code>http://10.0.3.253/s</code></li>
+        <li><strong>D</strong>: <code>http://10.0.3.253/d</code></li>
+        <li><strong>L</strong>: <code>http://10.0.3.253/l</code></li>
     </ul>
     <p id="status">Status: Inaktiv</p>
 
@@ -31,11 +31,11 @@
 
         // URL-Map für die verschiedenen Tasten
         const keyToUrlMap = {
-            "w": "http://vorbe",
-            "a": "http://links",
-            "s": "http://hinten",
-            "d": "http://rechts",
-            "l": "http://lampe"
+            "w": "vorne",
+            "a": "links",
+            "s": "hinten",
+            "d": "rechts",
+            "l": "lampe"
         };
 
         // Funktion, die die URL basierend auf der Taste aufruft
