@@ -1,69 +1,73 @@
+
+html
 <!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tastenbasierte Link-Aufrufe</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin-top: 50px;
-        }
-    </style>
+    <title>Tastenbetätigung erkennen</title>
+    <script>
+        let intervalId;
+
+        // Funktion zum Aufrufen des HTTP-Links
+        function callHttpLink(link) {
+            fetch(link)
+                .then(response => {
+                    console.log(
+Link aufgerufen: ${link}, Status: ${response.status}
+);
+                })
+                .catch(error => {
+                    console.error(
+Fehler beim Aufrufen des Links: ${error}`);
+});
+}
+
+// Funktion zum Handhaben der Tasteneingaben
+function handleKeyDown(event) {
+let link;
+
+switch (event.key) {
+case 'w':
+link = 'http://10.0.3.253/w';
+break;
+case 'a':
+link = 'http://10.0.3.253/a';
+break;
+case 's':
+link = 'http://10.0.3.253/s';
+break;
+case 'd':
+link = 'http://10.0.3.253/d';
+break;
+case 'l':
+link = 'http://10.0.3.253/l';
+break;
+default:
+return; // Wenn eine andere Taste gedrückt wird, nichts tun
+}
+
+// Starte das Intervall, um den Link wiederholt aufzurufen
+if (!intervalId) {
+intervalId = setInterval(() => callHttpLink(link), 1000);
+}
+}
+
+// Funktion zum Stoppen des Aufrufs, wenn die Taste losgelassen wird
+function handleKeyUp(event) {
+if (['w', 'a', 's', 'd', 'l'].includes(event.key)) {
+clearInterval(intervalId);
+intervalId = null; // Setze intervalId zurück
+}
+}
+
+// Event-Listener hinzufügen
+window.addEventListener('keydown', handleKeyDown);
+window.addEventListener('keyup', handleKeyUp);
+</script>
 </head>
 <body>
-    <h1>Tastenbasierte Link-Aufrufe</h1>
-    <p>Drücke und halte eine der folgenden Tasten, um den jeweiligen Link aufzurufen:</p>
-    <ul>
-        <li><strong>W</strong>: <code>http://10.0.3.253/w</code></li>
-        <li><strong>A</strong>: <code>http://10.0.3.253/a</code></li>
-        <li><strong>S</strong>: <code>http://10.0.3.253/s</code></li>
-        <li><strong>D</strong>: <code>http://10.0.3.253/d</code></li>
-        <li><strong>L</strong>: <code>http://10.0.3.253/l</code></li>
-    </ul>
-    <p id="status">Status: Inaktiv</p>
-
-    <script>
-        let activeKey = null; // Speichert die aktuell gedrückte Taste
-        let intervalId = null;
-        const statusElement = document.getElementById("status");
-
-        // URL-Map für die verschiedenen Tasten
-        const keyToUrlMap = {
-            "w": "http://10.0.3.253/w",
-            "a": "http://10.0.3.253/a",
-            "s": "http://10.0.3.253/s",
-            "d": "http://10.0.3.253/ds",
-            "l": "http://10.0.3.253/le"
-        };
-
-        // Funktion, die die URL basierend auf der Taste aufruft
-        async function callLink(url) {
-            try {
-                const response = await fetch(url);
-                console.log(`Aufruf von ${url}: Status ${response.status}`);
-            } catch (error) {
-                console.error(`Fehler beim Aufruf von ${url}:`, error);
-            }
-        }
-
-        // Event Listener für das Drücken einer Taste
-        document.addEventListener("keydown", (event) => {
-            const key = event.key.toLowerCase(); // Taste in Kleinbuchstaben
-            if (keyToUrlMap[key] && key !== activeKey) { // Prüfen, ob Taste gültig ist und noch nicht aktiv
-                activeKey = key;
-                statusElement.textContent = `Status: Aktiv (${key.toUpperCase()} -> ${keyToUrlMap[key]})`;
-                intervalId = setInterval(() => callLink(keyToUrlMap[key]), 1000); // Aufruf alle 1 Sekunde
-            }
-        });
-
-        // Event Listener für das Loslassen einer Taste
-        document.addEventListener("keyup", (event) => {
-            const key = event.key.toLowerCase();
-            if (key === activeKey) { // Prüfen, ob die aktuell aktive Taste losgelassen wurde
-                clearInterval(intervalId);
-                intervalId = null;
-                activeKey = null;
-                statusElement.textContent = "Status: Inaktiv";
-            }
+<h1>Tastenbetätigung erkennen</h1>
+<p>Drücke eine der Tasten (w, a, s, d, l), um den entsprechenden Link im Hintergrund aufzurufen.</p>
+</body>
+</html>
